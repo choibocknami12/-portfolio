@@ -8,5 +8,5 @@ composer require overtrue/socialite
 composer require socialiteproviders/naver
 composer require socialiteproviders/kakao
 php artisan schedule:run
-스케쥴러 실행
+스케쥴러 실행(관리자페이지 임시정지)
 -->
