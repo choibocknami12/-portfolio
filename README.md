@@ -2,7 +2,6 @@
 930624
 
 2. install
-
 vscode 설치 > 한국어 변경
 git 설치
 vscode 확장프로그램 설치
