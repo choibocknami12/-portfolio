@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개강 달력 시연</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+:root{color-scheme:dark;--bg:#0f1923;--card:#132130;--well:#0a1320;--text:#d6e8f5;--muted:#8aafcf;--border:#1a2a3a;--border-strong:#4a6784;--accent:#7eb8e8;--accent-text:#0f1923;--warn:#f7c875;--ok:#7ec8a0;--bad:#ff8ba0}
+[data-theme="light"]{color-scheme:light;--bg:#d8cdba;--card:#ece5d9;--well:#e1d8c9;--text:#2a2622;--muted:#504840;--border:rgba(60,45,30,.13);--border-strong:rgba(60,45,30,.4);--accent:#355f45;--accent-text:#fff;--warn:#744c06;--ok:#355f45;--bad:#9c2e1b}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 'Wanted Sans Variable','Wanted Sans',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 72px}
+header,.nav{display:flex;align-items:center;gap:8px 16px}
+header{justify-content:space-between}
+h1{font-size:28px;line-height:1.3;letter-spacing:-.02em;margin:0}
+h2{font-size:20px;line-height:1.4;margin:0}
+h3{font-size:17px;line-height:1.5;margin:0}
+p{margin:8px 0 16px}
+a{color:var(--accent)}
+.muted{color:var(--muted)}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+button,input,textarea{font:inherit;color:var(--text)}
+button{min-height:44px;padding:0 16px;border:1px solid var(--border-strong);border-radius:8px;background:transparent;cursor:pointer;white-space:nowrap}
+button.main,button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-text);font-weight:600}
+input[type="search"],input[type="date"],input[type="text"],textarea{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--border-strong);border-radius:8px;background:var(--well)}
+textarea{min-height:88px;resize:vertical}
+:is(a,button,input,textarea):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.row input[type="search"]{flex:1 1 200px;width:auto;min-width:0}
+.nav{margin:24px 0 12px}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.cal>div{background:var(--card);padding:8px;min-width:0}
+.cal .dow{text-align:center;color:var(--muted);font-size:14px;padding:4px}
+.day{min-height:92px}
+.day.off{background:var(--well)}
+.num{display:inline-block;min-width:24px;text-align:center;font-size:14px;font-variant-numeric:tabular-nums}
+.today .num{background:var(--accent);color:var(--accent-text);border-radius:999px;font-weight:700}
+.ev{display:block;width:100%;min-height:28px;padding:2px 6px;margin-top:4px;border:0;border-radius:6px;background:var(--well);text-align:left;font-size:13px;line-height:1.5;overflow:hidden;text-overflow:ellipsis}
+.card{display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:8px}
+.card>div{min-width:0}
+.card button{flex:none}
+dialog{width:min(560px,calc(100% - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:24px;border:1px solid var(--border-strong);border-radius:12px;background:var(--card);color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.field{display:block;margin-top:12px}
+.field span{display:block;color:var(--muted);font-size:14px}
+.steps{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px}
+.chk{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;white-space:nowrap}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.theme-toggle{display:inline-flex;align-items:center;gap:10px;height:44px;flex:none;color:var(--muted);cursor:pointer}
+.theme-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.theme-toggle .ic-sun{display:none}[data-theme="light"] .theme-toggle .ic-sun{display:block}[data-theme="light"] .theme-toggle .ic-moon{display:none}
+.toggle{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:36px;height:20px;margin:0;border:1px solid var(--border-strong);border-radius:999px;background:var(--bg);color:var(--muted);cursor:pointer}
+.toggle::before{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:currentColor;transition:transform .2s ease}
+.toggle:checked{color:var(--text)}.toggle:checked::before{transform:translateX(16px)}
+@media(max-width:640px){h1{font-size:24px}.cal>div{padding:4px 2px}.day{min-height:72px}.ev{padding:2px;font-size:11px;white-space:normal;word-break:break-all}.nav{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>개강 달력 시연</h1>
+<label class="theme-toggle" for="themeChk">
+<svg class="ic-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg class="ic-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+<input type="checkbox" id="themeChk" class="toggle" aria-label="다크 모드">
+</label>
+</header>
+<p class="muted">월간 시간표를 달력과 할 일로 정리하는 실무 도구의 핵심 동작을 가상 데이터로 다시 만든 시연입니다. 과정 · 강사 · 강의실은 모두 예시이고, 날짜는 여는 날을 기준으로 만들어집니다. <a href="./index.html">다른 도구 시연 보기</a></p>
+<div class="row" id="tabs" role="group" aria-label="과정 구분"></div>
+<div class="row">
+<input type="search" id="q" placeholder="과정명 · 강사 · 강의실 검색" aria-label="과정명, 강사, 강의실 검색">
+<button type="button" id="upload">새 시간표 불러오기</button>
+<button type="button" id="reset">처음으로 되돌리기</button>
+</div>
+<div id="calBox">
+<div class="nav">
+<button type="button" id="prev" aria-label="이전 달">◀</button>
+<h2 id="ym" aria-live="polite"></h2>
+<button type="button" id="next" aria-label="다음 달">▶</button>
+<button type="button" id="now">오늘</button>
+</div>
+<div class="cal" id="cal"></div>
+</div>
+<div class="nav"><h2 id="title"></h2></div>
+<div id="list"></div>
+<dialog id="dlg" aria-labelledby="dlgTitle"></dialog>
+</div>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)},KEY='demoCalendar';
+function el(t,c,x){var n=document.createElement(t);if(c)n.className=c;if(x!==undefined)n.textContent=x;return n}
+function btn(x,fn,c){var b=el('button',c||'',x);b.type='button';b.onclick=fn;return b}
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+var root=document.documentElement,chk=$('themeChk'),theme=load('demoTheme','dark')==='light'?'light':'dark';
+function paint(){root.dataset.theme=theme;chk.checked=theme==='dark'}
+paint();chk.onchange=function(){theme=chk.checked?'dark':'light';paint();put('demoTheme',theme)};
+
+var now=new Date(),TODAY=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function day(n){return iso(new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate()+n))}
+function diff(s){var p=s.split('-');return Math.round((Date.UTC(p[0],p[1]-1,p[2])-Date.UTC(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate()))/864e5)}
+
+/* 단계별 기준일: 개강일(s) 또는 종료일(e) */
+var FLOW=[['기간추가','s',-14],['시간표등록','s',-10],['훈련생등록','s',-3],['실시신고','s',0],['확정자신고','s',7],['수료보고','e',7],['비용신청완료','e',14]];
+function course(id,name,cat,s,e,room,who,done){return{id:id,name:name,cat:cat,start:day(s),end:day(e),room:room,who:who,done:done}}
+var FIRST=[
+ course('c1','디자인 실무','실업자',-20,90,'501호','강사A',4),
+ course('c2','영상 편집 입문','실업자',4,94,'502호','강사B',2),
+ course('c3','웹 제작 기초','실업자',18,108,'503호','강사C',0),
+ course('c4','문서 작성','재직자',-12,8,'504호','강사D',5),
+ course('c5','표 계산 실무','재직자',7,28,'504호','강사D',1),
+ course('c6','발표 자료 만들기','재직자',25,40,'501호','강사A',0)
+];
+/* 새 시간표: 강의실 1건 변경, 1건 추가, 1건 빠짐 */
+var SECOND=FIRST.filter(function(c){return c.id!=='c6'}).map(function(c){return c.id==='c3'?Object.assign({},c,{room:'601호'}):c}).concat([course('c7','사진 보정','실업자',12,60,'601호','강사E',0)]);
+
+var st=load(KEY,{}),edits=st.edits||{},second=!!st.second,tab='실업자',q='',ym=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
+function save(){put(KEY,{edits:edits,second:second})}
+function all(){return(second?SECOND.concat([Object.assign({},FIRST[5],{kept:true})]):FIRST).map(function(c){var x=Object.assign({},c,edits[c.id]||{});x.done=x.done.length===undefined?FLOW.map(function(_,i){return i<c.done}):x.done;return x})}
+function running(c){return diff(c.start)<=0&&diff(c.end)>=0}
+function inTab(c,t){if(t==='할 일')return c.done.indexOf(false)>=0;if(t==='진행중')return running(c);return c.cat===t&&diff(c.start)>0}
+function hit(c){return!q||(c.name+c.who+c.room).toLowerCase().indexOf(q)>=0}
+function edit(id,o){edits[id]=Object.assign({},edits[id]||{},o);save()}
+function stepDate(c,i){var p=(FLOW[i][1]==='s'?c.start:c.end).split('-');return iso(new Date(+p[0],p[1]-1,+p[2]+FLOW[i][2]))}
+function dday(n){return n<0?-n+'일 지남':n===0?'오늘':n+'일 남음'}
+
+function drawTabs(){
+  var cs=all(),box=$('tabs');box.replaceChildren();
+  ['실업자','재직자','진행중','할 일'].forEach(function(t){
+    var b=btn(t+' '+cs.filter(function(c){return inTab(c,t)}).length,function(){tab=t;draw();$('tabs').querySelector('[aria-pressed="true"]').focus()});
+    b.setAttribute('aria-pressed',t===tab);box.append(b);
+  });
+}
+function drawCal(cs){
+  var y=ym.getFullYear(),m=ym.getMonth(),box=$('cal'),first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate(),n=Math.ceil((first+last)/7)*7;
+  $('ym').textContent=y+'년 '+(m+1)+'월';box.replaceChildren();
+  ['일','월','화','수','목','금','토'].forEach(function(d){box.append(el('div','dow',d))});
+  for(var i=0;i<n;i++){
+    var d=new Date(y,m,i-first+1),s=iso(d),cell=el('div','day'+(d.getMonth()!==m?' off':'')+(s===iso(TODAY)?' today':''));
+    cell.append(el('span','num',String(d.getDate())));
+    cs.filter(function(c){return c.start===s}).forEach(function(c){var b=btn(c.name,function(){open(c.id)},'ev');b.title=c.name+' · '+c.room;cell.append(b)});
+    box.append(cell);
+  }
+}
+function card(c,text,cls){
+  var d=el('div','card'),x=el('div');
+  x.append(el('h3','',c.name),el('div','muted',c.start+' ~ '+c.end+' · '+c.room+' · '+c.who),el('div',cls||'',text));
+  if(c.memo)x.append(el('div','muted','메모: '+c.memo));
+  if(c.kept)x.append(el('div','warn','새 시간표에 없어 보관 중'));
+  d.append(x,btn('열기',function(){open(c.id)}));return d;
+}
+function drawTodo(cs){
+  var box=$('list');
+  var list=cs.map(function(c){var i=c.done.indexOf(false);return{c:c,i:i,n:diff(stepDate(c,i))}}).sort(function(a,b){return a.n-b.n});
+  [['기한 지남','bad',function(n){return n<0}],['임박 (7일 이내)','warn',function(n){return n>=0&&n<=7}],['다가옴','muted',function(n){return n>7}]].forEach(function(g){
+    var l=list.filter(function(x){return g[2](x.n)});if(!l.length)return;
+    box.append(el('p',g[1],g[0]+' '+l.length+'건'));
+    l.forEach(function(x){
+      var d=card(x.c,FLOW[x.i][0]+' · '+(x.i+1)+'/7단계 · '+dday(x.n),g[1]);
+      d.lastChild.before(btn('완료',function(){var v=x.c.done.slice();v[x.i]=true;edit(x.c.id,{done:v});draw()},'main'));
+      box.append(d);
+    });
+  });
+}
+function draw(){
+  var todo=tab==='할 일',cs=all().filter(function(c){return inTab(c,tab)&&hit(c)}).sort(function(a,b){return a.start<b.start?-1:1});
+  drawTabs();$('calBox').hidden=todo;$('list').replaceChildren();
+  $('title').textContent=(todo?'해야 할 행정처리 ':tab+' 과정 ')+cs.length+'건';
+  if(todo)drawTodo(cs);
+  else{drawCal(cs);cs.forEach(function(c){$('list').append(card(c,'진행 '+c.done.filter(Boolean).length+'/7 · 개강 '+dday(diff(c.start))))})}
+  if(!cs.length)$('list').append(el('p','muted','해당하는 과정이 없습니다.'));
+}
+function show(nodes){var d=$('dlg');d.replaceChildren.apply(d,nodes);if(!d.open)d.showModal()}
+function head(t){var h=el('h2','',t);h.id='dlgTitle';return h}
+function field(name,type,val){var l=el('label','field'),i=document.createElement(type==='area'?'textarea':'input');if(type!=='area')i.type=type;i.value=val||'';l.append(el('span','',name),i);return[l,i]}
+function open(id){
+  var c=all().filter(function(x){return x.id===id})[0],s=field('개강일','date',c.start),e=field('종료일','date',c.end),r=field('강의실','text',c.room),m=field('메모','area',c.memo),steps=el('div','steps'),boxes=[],err=el('p','bad');
+  err.setAttribute('role','alert');
+  FLOW.forEach(function(f,i){var l=el('label','chk'),b=el('input');b.type='checkbox';b.checked=c.done[i];boxes.push(b);l.append(b,el('span','',f[0]));steps.append(l)});
+  var row=el('div','row');
+  row.append(btn('저장',function(){
+    if(!s[1].value||!e[1].value||s[1].value>e[1].value){err.textContent='개강일과 종료일을 확인해 주세요. 종료일은 개강일보다 빠를 수 없습니다.';return}
+    var o={done:boxes.map(function(b){return b.checked}),memo:m[1].value.trim()};
+    if(s[1].value!==c.start)o.start=s[1].value;
+    if(e[1].value!==c.end)o.end=e[1].value;
+    if(r[1].value.trim()&&r[1].value.trim()!==c.room)o.room=r[1].value.trim();
+    edit(id,o);$('dlg').close();draw();
+  },'main'),btn('닫기',function(){$('dlg').close()}));
+  show([head(c.name),el('div','muted',c.cat+' · '+c.who),s[0],e[0],r[0],m[0],steps,err,row]);
+}
+$('upload').onclick=function(){
+  var row=el('div','row');
+  if(second){row.append(btn('닫기',function(){$('dlg').close()}));show([head('이미 반영했습니다'),el('p','','「처음으로 되돌리기」를 누르면 다시 해볼 수 있습니다.'),row]);return}
+  var u=el('ul');
+  ['추가 1건 — 사진 보정','변경 1건 — 웹 제작 기초 강의실 503호 → 601호','빠짐 1건 — 발표 자료 만들기 (지우지 않고 보관)'].forEach(function(x){u.append(el('li','',x))});
+  row.append(btn('반영하기',function(){second=true;if(edits.c3)delete edits.c3.room;save();$('dlg').close();draw()},'main'),btn('취소',function(){$('dlg').close()}));
+  show([head('반영 전 미리보기'),el('p','muted','준비된 예시 시간표를 읽었습니다. 적어둔 메모와 체크는 그대로 남습니다.'),u,row]);
+};
+$('reset').onclick=function(){
+  var row=el('div','row');row.append(btn('되돌리기',function(){edits={};second=false;save();q=$('q').value='';$('dlg').close();draw()},'main'),btn('취소',function(){$('dlg').close()}));
+  show([head('처음으로 되돌릴까요?'),el('p','','이 브라우저에 저장한 메모와 체크가 지워집니다.'),row]);
+};
+$('q').oninput=function(){q=this.value.trim().toLowerCase();draw()};
+function move(n){ym=new Date(ym.getFullYear(),ym.getMonth()+n,1);draw()}
+$('prev').onclick=function(){move(-1)};$('next').onclick=function(){move(1)};
+$('now').onclick=function(){ym=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);draw()};
+draw();
+})();
+</script>
+</body>
+</html>

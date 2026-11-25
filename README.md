@@ -60,7 +60,7 @@ flowchart LR
 | 시스템용 시간표 작성 | 강사 · 강의실 · 교과목을 손으로 코드 변환 | 엑셀을 자동 변환하고 **업로드 전에 담당강사 등록 여부 검사** |
 | 개강 일정 관리 | 월간 시간표를 하나씩 확인 | 달력과 **행정 7단계 할 일판**으로 정리 |
 
-> **[▶ 눌러서 시연 보기](https://choibocknami12.github.io/-portfolio/demo/)** — 가상 데이터로 핵심 동작을 다시 만든 페이지입니다.
+> **[▶ 업무 도구 시연](https://choibocknami12.github.io/-portfolio/demo/)** · **[▶ 개강 달력 시연](https://choibocknami12.github.io/-portfolio/demo/calendar.html)** — 가상 데이터로 핵심 동작을 다시 만든 페이지입니다.
 >
 > 실무 도구는 내부 자료와 개인정보 보호를 위해 코드와 화면을 공개하지 않습니다.
 > 업무 규칙과 요구사항을 직접 정리하고, 구현에는 AI 코딩 도구를 활용했습니다.
