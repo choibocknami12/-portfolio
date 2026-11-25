@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>업무 도구 시연</title>
+<style>
+@import url('https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css');
+:root{color-scheme:dark;--bg:#0f1923;--card:#132130;--well:#0a1320;--text:#d6e8f5;--muted:#8aafcf;--border:#1a2a3a;--border-strong:#4a6784;--accent:#7eb8e8;--accent-text:#0f1923;--warn:#f7c875;--ok:#7ec8a0;--bad:#ff8ba0}
+[data-theme="light"]{color-scheme:light;--bg:#d8cdba;--card:#ece5d9;--well:#e1d8c9;--text:#2a2622;--muted:#504840;--border:rgba(60,45,30,.13);--border-strong:rgba(60,45,30,.4);--accent:#355f45;--accent-text:#fff;--warn:#744c06;--ok:#355f45;--bad:#9c2e1b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 'Wanted Sans Variable','Wanted Sans',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 72px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px}
+h1{font-size:28px;line-height:1.3;letter-spacing:-.02em;margin:0}
+h2{font-size:21px;line-height:1.4;margin:0}
+p{margin:8px 0 16px}
+.muted{color:var(--muted)}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px;scroll-margin-top:16px}
+a{color:var(--accent)}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--border-strong);border-radius:8px;text-decoration:none;white-space:nowrap}
+button{font:inherit;min-height:44px;padding:0 16px;border:1px solid var(--border-strong);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;white-space:nowrap}
+button.main{background:var(--accent);border-color:var(--accent);color:var(--accent-text);font-weight:600}
+button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+:is(a,button,input,.scroll):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.scroll{overflow-x:auto;background:var(--well);border-radius:8px;margin:8px 0 16px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px}
+th,td{padding:8px 12px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+th{color:var(--muted);font-weight:500}
+.msg{padding:12px 16px;border-radius:8px;background:var(--well);margin:12px 0}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.item{background:var(--well);border-radius:8px;padding:16px;margin-top:12px}
+.item h3{font-size:17px;margin:0}
+.steps{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px}
+label.chk{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;white-space:nowrap}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.sub{border-top:1px solid var(--border);margin-top:8px}
+.sub-title{display:inline-flex;align-items:center;min-height:44px;color:var(--muted)}
+.task{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.task p{margin:0}
+.theme-toggle{display:inline-flex;align-items:center;gap:10px;height:44px;flex:none;color:var(--muted);cursor:pointer}
+.theme-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.theme-toggle .ic-sun{display:none}[data-theme="light"] .theme-toggle .ic-sun{display:block}[data-theme="light"] .theme-toggle .ic-moon{display:none}
+.toggle{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:36px;height:20px;margin:0;border:1px solid var(--border-strong);border-radius:999px;background:var(--bg);color:var(--muted);cursor:pointer}
+.toggle::before{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:currentColor;transition:transform .2s ease}
+.toggle:checked{color:var(--text)}.toggle:checked::before{transform:translateX(16px)}
+@media(max-width:560px){h1{font-size:24px}section{padding:16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>업무 도구 시연</h1>
+<label class="theme-toggle" for="themeChk">
+<svg class="ic-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg class="ic-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+<input type="checkbox" id="themeChk" class="toggle" aria-label="다크 모드">
+</label>
+</header>
+<p class="muted">실무에서 쓰는 도구의 핵심 동작을 가상 데이터로 다시 만든 시연입니다. 과정 · 강사 · 코드는 모두 예시이며 외부 시트나 시스템에 연결되지 않습니다.</p>
+<nav aria-label="시연 목록">
+<a href="#convert">시간표 변환</a>
+<a href="#check">구글 시트 읽기</a>
+<a href="#todo">할 일판</a>
+</nav>
+
+<section id="convert">
+<h2>시간표 변환</h2>
+<p>일반 시간표의 이름을 코드로 바꾸고, 점심시간을 넣고, 올리기 전에 검사합니다.</p>
+<div class="row">
+<button type="button" id="good" aria-pressed="true">정상 예시</button>
+<button type="button" id="wrong" aria-pressed="false">문제 있는 예시</button>
+</div>
+<div class="scroll" tabindex="0" role="region" aria-label="일반 시간표"><table>
+<thead><tr><th>날짜</th><th>시간</th><th>강사</th><th>교과목</th><th>강의실</th></tr></thead>
+<tbody id="src"></tbody>
+</table></div>
+<button type="button" class="main" id="run">변환하기</button>
+<div id="out" aria-live="polite"></div>
+</section>
+
+<section id="check">
+<h2>구글 시트 읽기 · 신고 체크리스트</h2>
+<p>시트 한 칸에 적힌 글에서 과정명과 개강일을 찾아, 강의실과 함께 과정별 체크리스트로 바꿉니다.</p>
+<div class="scroll" tabindex="0" role="region" aria-label="시트 원문"><table>
+<thead><tr><th>강의실</th><th>시트에 적힌 내용</th></tr></thead>
+<tbody id="sheet"></tbody>
+</table></div>
+<button type="button" class="main" id="read">시트 읽기</button>
+<div id="courses"></div>
+</section>
+
+<section id="todo">
+<h2>할 일판</h2>
+<p>과정마다 남은 첫 단계만 골라 급한 순서로 보여줍니다. 완료를 누르면 다음 단계로 넘어갑니다.</p>
+<div id="tasks"></div>
+<div class="row"><button type="button" id="reset">처음으로 되돌리기</button></div>
+</section>
+</div>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function el(t,c,x){var n=document.createElement(t);if(c)n.className=c;if(x!==undefined)n.textContent=x;return n}
+function row(cells){var r=el('tr');cells.forEach(function(c){r.append(el('td','',c))});return r}
+
+var root=document.documentElement,chk=$('themeChk'),t=load('demoTheme','dark')==='light'?'light':'dark';
+function theme(){root.dataset.theme=t;chk.checked=t==='dark'}
+theme();chk.onchange=function(){t=chk.checked?'dark':'light';theme();save('demoTheme',t)};
+
+/* 시간표 변환 */
+var TEACHER={'강사A|디자인':'T101','강사A|기획':'T102','강사B|디자인':'T201'};
+var LINKED={'강사A|디자인':1,'강사A|기획':1};
+var SUBJECT={'디자인':'S01','기획':'S02'},ROOM={'501호':'R501'};
+var GOOD=[['2030-01-07','09:00','09:50','강사A','디자인','501호'],['2030-01-07','10:00','10:50','강사A','디자인','501호'],['2030-01-07','11:00','11:50','강사A','디자인','501호'],['2030-01-07','13:00','13:50','강사A','기획','501호'],['2030-01-08','','','','휴일','']];
+var WRONG=[GOOD[0],['2030-01-07','10:00','10:50','강사B','디자인','501호'],['2030-01-07','13:00','13:50','강사C','기획','509호'],GOOD[4]];
+var cur=GOOD;
+function showSrc(){
+  $('src').replaceChildren.apply($('src'),cur.map(function(r){return row([r[0],r[1]?r[1]+'~'+r[2]:'—',r[3]||'—',r[4],r[5]||'—'])}));
+  $('out').replaceChildren();$('good').setAttribute('aria-pressed',cur===GOOD);$('wrong').setAttribute('aria-pressed',cur===WRONG);
+}
+$('good').onclick=function(){cur=GOOD;showSrc()};$('wrong').onclick=function(){cur=WRONG;showSrc()};
+function mins(s){return +s.slice(0,2)*60+ +s.slice(3)}
+function hm(s){return s.replace(':','')}
+$('run').onclick=function(){
+  var rows=[],bad=[],skip=0,prev=null;
+  cur.forEach(function(r){
+    if(!r[3]){skip++;return}
+    var d=r[0].replace(/-/g,''),k=r[3]+'|'+r[4];
+    if(prev&&prev[0]===r[0]&&mins(r[1])-mins(prev[2])>=40)rows.push([d,hm(prev[2]),hm(r[1]),'점심','','','']);
+    if(!SUBJECT[r[4]])bad.push('교과목코드 없음 — '+r[4]);
+    if(!TEACHER[k])bad.push('강사코드 없음 — '+r[3]+' · '+r[4]);
+    else if(!LINKED[k])bad.push('담당강사 미등록 — '+r[3]+' · '+r[4]);
+    if(!ROOM[r[5]])bad.push('강의실코드 없음 — '+r[5]);
+    rows.push([d,hm(r[1]),hm(r[2]),'수업',TEACHER[k]||'',SUBJECT[r[4]]||'',ROOM[r[5]]||'']);prev=r;
+  });
+  var o=$('out');o.replaceChildren();
+  if(bad.length){
+    var m=el('div','msg');m.append(el('strong','bad','고칠 항목 '+bad.length+'건 — 업로드하지 마세요'));
+    var u=el('ul');bad.forEach(function(b){u.append(el('li','',b))});m.append(u);o.append(m);return;
+  }
+  o.append(el('div','msg ok','문제 없음 — 업로드 가능 (휴일 '+skip+'일 제외, 점심시간 자동 추가)'));
+  var s=el('div','scroll'),tb=el('table'),h=el('thead'),hr=el('tr'),b=el('tbody');
+  s.tabIndex=0;s.setAttribute('role','region');s.setAttribute('aria-label','변환 결과');
+  ['날짜','시작','종료','구분','강사코드','교과목코드','강의실코드'].forEach(function(x){hr.append(el('th','',x))});
+  h.append(hr);rows.forEach(function(r){b.append(row(r))});tb.append(h,b);s.append(tb);o.append(s);
+};
+showSrc();
+
+/* 시트 읽기 */
+var SHEET=[['501호','(국기) 디자인 실무 과정\n2030.01.07~2030.06.28\n(108D/850H)'],['502호','(재직자) 문서 작성 과정\n2030.02.04~2030.02.28\n(16D/64H)']];
+var STEPS=['시간표등록','변경인정','실시신고','확정자신고','수료보고'],MUST={'실시신고':1,'확정자신고':1},ITEMS=['시간표','장비','교강사','교재'];
+var state=load('demoChecks',{});
+SHEET.forEach(function(x){$('sheet').append(row([x[0],x[1].replace(/\n/g,' / ')]))});
+function parse(x){var l=x[1].split('\n'),m=/^\((.+?)\)\s*(.+)$/.exec(l[0]);return{room:x[0],type:m[1],name:m[2],start:l[1].split('~')[0].replace(/\./g,'-')}}
+function box(id,text,on,fn){var l=el('label','chk'),i=el('input');i.type='checkbox';i.id=id;i.checked=!!on;i.onchange=function(){fn(i.checked);save('demoChecks',state);drawCourses();$(id).focus()};l.append(i,el('span','',text));return l}
+function drawCourses(){
+  var w=$('courses');w.replaceChildren();
+  SHEET.map(parse).forEach(function(c,n){
+    var s=state[c.name]=state[c.name]||{},d=el('div','item');
+    d.append(el('h3','',c.name),el('div','muted',c.type+' · '+c.room+' · 개강 '+c.start));
+    var st=el('div','steps');
+    STEPS.forEach(function(k){
+      var b=box('s'+n+k,k+(MUST[k]?' (필수)':''),s[k],function(v){s[k]=v;if(k==='변경인정'&&!v)s.items=[]});
+      if(MUST[k]&&!s[k])b.classList.add('bad');
+      st.append(b);
+    });
+    d.append(st);
+    var sub=el('div','steps sub');sub.append(el('span','sub-title','변경인정 항목'));
+    ITEMS.forEach(function(k){sub.append(box('i'+n+k,k,(s.items||[]).indexOf(k)>=0,function(v){
+      s.items=(s.items||[]).filter(function(y){return y!==k});
+      if(v){s.items.push(k);s['변경인정']=true}
+    }))});
+    d.append(sub);w.append(d);
+  });
+}
+$('read').onclick=drawCourses;
+
+/* 할 일판 */
+var FLOW=['기간추가','시간표등록','훈련생등록','실시신고','확정자신고','수료보고','비용신청완료'];
+var BASE=[['디자인 실무 과정',3,-2],['문서 작성 과정',1,4],['영상 편집 과정',0,21]],pos=load('demoTodo',{});
+function at(c){return pos[c[0]]===undefined?c[1]:pos[c[0]]}
+function drawTodo(){
+  var w=$('tasks');w.replaceChildren();
+  [['기준일 지남','bad',function(d){return d<0}],['임박 (7일 이내)','warn',function(d){return d>=0&&d<=7}],['다가옴','muted',function(d){return d>7}],['끝난 것','ok',null]].forEach(function(g){
+    var list=BASE.filter(function(c){var done=at(c)>=FLOW.length;return g[2]?!done&&g[2](c[2]):done});
+    if(!list.length)return;
+    w.append(el('p',g[1],g[0]+' '+list.length+'건'));
+    list.forEach(function(c){
+      var p=at(c),d=el('div','item task'),x=el('div');
+      x.append(el('h3','',c[0]),el('p','muted',p<FLOW.length?FLOW[p]+' · '+(p+1)+'/7단계 · 기준일 '+(c[2]<0?-c[2]+'일 지남':c[2]+'일 남음'):'7단계 모두 완료'));
+      d.append(x);
+      if(p<FLOW.length){
+        var b=el('button','','완료');b.type='button';b.id='t'+BASE.indexOf(c);
+        b.setAttribute('aria-label',c[0]+' '+FLOW[p]+' 완료');
+        b.onclick=function(){pos[c[0]]=p+1;save('demoTodo',pos);drawTodo();($('t'+BASE.indexOf(c))||$('reset')).focus()};
+        d.append(b);
+      }
+      w.append(d);
+    });
+  });
+}
+$('reset').onclick=function(){pos={};save('demoTodo',pos);drawTodo()};
+drawTodo();
+})();
+</script>
+</body>
+</html>
