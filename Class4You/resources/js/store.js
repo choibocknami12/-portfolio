@@ -23,7 +23,7 @@ const store = createStore({
     // state() : 데이터를 저장하는 영역
     state() {
         return {
-            // 정명호
+            // 정**
             // RegistrationErrorMessage: {
             //     UserEmail: '',
             //     UserPassword: '',

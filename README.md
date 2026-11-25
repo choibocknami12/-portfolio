@@ -1,228 +1,115 @@
-1. 최현희 포트폴리오
-930624
+# Portfolio — 고객 응대 · 영업관리 · 운영
 
-2. install
-vscode 설치 > 한국어 변경
-git 설치
-vscode 확장프로그램 설치
-<php 설치>
-    1. https://windows.php.net/download
-    2. 아파치 웹서버 사용 목적 VS16 x64 Thread Safe zip파일 다운로드
-    3. 경로 : C:\php-8.2.10\
-    3. php.ini-development 복사&붙여넣기 > php.ini 파일명 변경
-    4. php.ini 주석 해제
-    4-1. 198행
-        short_open_tag 설정 (php구분 태그인 <?php ?> 를 <? ?>로 작성 가능) 
-        short_open_tag = On
-    4-2. 767, 768행
-        On windows:
-        extension_dir = "PHP설치경로/ext"
-    4-3. 936행
-        extension 관련 설정 주석해제 (필요에 따라 주석 제거)
-        extension=mbstring
-    4-4. 977행
-        시간대 설정
-        date.timezone = Asia/Seoul
-    5. 시스템 환경 변수 편집 > 환경 변수 > 시스템 변수 > 새로 만들기
-    5-1. 변수 이름 : PHP, 변수 값 : PHP 설치한 폴더 경로 ex) C:\php-8.2.10
-    5-2. 시스템 변수 > PATH > 새로 만들기 > %PHP% > 확인
-    5-3. cmd > php -v 버전 출력시 설치 완료
-    5-4. 버전 출력 되지 않고 오류 발생 시 : visual c++ 설치 필요 
-        https://learn.microsoft.com/ko-kr/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022
-<Apache 설치>
-    1. https://www.apachelounge.com/download/
-    2. Apache 2.4.56 Win64 다운로드
-    3. C:\Apache24 압축 해제
-    4. conf\httpd.conf 수정
-    4-1. 37행
-        "Define SRVROOT"를 Apache24를 설치했던 경로로 변경(순서대로 설치했다면 변경 불필요)
-    4-2. 227행
-        "ServerName" 주석 해제
-    4-3. 285행
-        index페이지 설정 (PHP연동 관련 설정)
-        <IfModule dir_module>
-        DirectoryIndex index.php index.html
-        </IfModule>
-    4-4. 가장 마지막줄에 아래 설정 추가 (PHP연동 관련 설정-다운로드 버전에 따라 변경)
-        PHPIniDir "C:/php-8.2.10"
-        LoadModule php_module "C:/php-8.2.10/php8apache2_4.dll"
-        AddHandler application/x-httpd-php .php
-        AddType application/x-httpd-php .php .html
-    5. cmd > C:\Apache24\bin\ 이동
-    6. httpd -k install
-    7. 설치 완료 후 net start apache2.4
-    8. 브라우저 localhost 접속, It works! 확인 시 설치 완료
-    9. \Apache24\htodcs\phpinfo.php 배치
-        <?php
-            phpinfo();
-    10. 브라우저 localhost/phpinfo.php 접속, php 정보 확인 시 연동 완료
-    11. php 정보 전체 선택 복사
-    12. https://xdebug.org/wizard > Analyse my phpinfo() output 버튼클릭
-    13. Instructions 순서진행
-    14. php_xdebug-3.3.1-8.2-vs16-x86_64.dll 다운로드
-    15. C:\php-8.2.16\ext 이동 php_xdebug.dll 파일이름 변경
-    16. php.ini
-    zend_extension = xdebug
-    17. Apache 재실행
-<mariaDB 설치>
-    1. https://mariadb.org/download/
-    2. Display older releases 체크 후 목록 확인
-    3. 안정화 버전 10.10.6 설치
-    4. 비밀번호 설정 후 UTF8 체크 후 다음 단계
-    5. TCP port 3307, Buffer pool size 1020MB 설치
-    6. sysdm.cpl 실행(시스템 속성)
-    7. 고급>환경 변수>시스템 변수>Path
-    8. C:\Program Files\MariaDB 10.10\bin 등록
-    9. cmd 실행
-    9-1.
-        mysql -uroot -p mysql
-        root 비밀번호 입력
-    9-2. show databases; 확인 후 종료
-        cf)https://m.blog.naver.com/heartflow89/221074331956
-<heid SQL 설치>
-    1. https://www.heidisql.com/download.php?download=installer
-    2. 서버연결 실행 오류 시 포트 번호 확인
-    2-1. 
-    show global variables like 'PORT';
-    2-2. 포트번호 확인 후 heid SQL에서 포트번호 변경 후 실행
-<Laravel 설치>
-    1. https://getcomposer.org/download/ 컴포저 설치
-    2. cmd > composer 입력 후 설치 확인
-    3. php.ini 주석 해제
-    3-1. 929행
-        extension=fileinfo
-    3-2. 935행
-        extension=mbstring
-    3-3. 941행
-        extension=openssl
-    3-4. 943행
-        extension=pdo_mysql
-    3-5. 961행
-        extension=zip
-    4. C:\Apache24\conf\httpd.conf 설정 변경
-    4-1. 251, 252행
-        DocumentRoot "${SRVROOT}/htdocs/라라벨 디렉토리명/public"
-        <Directory "${SRVROOT}/htdocs/라라벨디렉토리명/public">
-    4-2. 162행 주석 해제
-        LoadModule rewrite_module modules/mod_rewrite.so
-    4-3. Apache 재실행
-    4-4. 재실행 되지 않을 시 htdocs 폴더 내 라라벨 디렉토리명/public 생성
-    5. composer create-project laravel/laravel="9" 프로젝트명
-    6. Laravel 서버 실행
-<Vue.js 설치>
-    1. https://nodejs.org/en 안정화 버전 설치
-    2. 라라벨 디렉토리 내에서 npm install
-    3. 라우터 설정 : npm install vue-router@4
-    4. 뷰엑스 설치 : npm install vuex@next --save
-    5. axios 설치 : npm install axios
-    6. 디펜던시 뷰 추가 : npm install --save-dev vue
-    7. 모듈 에러 시 : npm install --``save-dev vue-loader
-    8. 뷰파일 변경 시 실행 : npm run dev
-    9. npm run watch
-    10. resources > components > AppComponent.vue 생성
-    10-1.
-        <template>
-            <div>
-                <p>test</p>
-                <router-view></router-view>
-            </div>
-        </template>
-        <script>
-        export default {
-            name: 'AppComponent',
-        }
-        </script>
-    11. resources/js/app.js 수정
-    11-1. 
-        require('./bootstrap');
-        import { createApp } from 'vue';
-        import router from '../js/router.js';
-        import AppComponent from '../components/AppComponent.vue';
-        createApp({
-            components: {
-                AppComponent,
-            }
-        })
-        .use(router)
-        .mount('#app');
-    12. resources > js > router.js 생성
-        import { createWebHistory, createRouter } from 'vue-router';
-        import AppComponent from '../components/AppComponent.vue';
-        const routes = [
-            {
-                path: '/',
-                component: AppComponent,
-            },
-        ];
-        const router = createRouter({
-            history: createWebHistory(),
-            routes,
-        });
-    export default router;
-    13. webpack.mix.js 수정
-    13-1. 
-    mix.js('resources/js/app.js', 'public/js')
-        .vue({ version: 3, })
-        .postCss('resources/css/app.css', 'public/css', [
-            //
-        ]);
-    13. npm run dev
-    14. resources > views
-        <!DOCTYPE html>
-        <html lang="ko">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>Document</title>
-            <script src="{{ asset('js/app.js')}}" defer></script>
-        </head>
-        <body>
-            <div id="app">
-                <App-Component></App-Component>
-            </div>
-        </body>
-        </html>
-<SCSS 설정 및 tailwind 설치>
-    1. resources > sass > app.scss 생성
-    2. npm install -D tailwindcss postcss autoprefixer
-    3. npx tailwindcss init
-    4. tailwind.config.js 내 위치
-    /** @type {import('tailwindcss').Config} */
-    export default {
-    content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-    ],
-    theme: {
-        extend: {},
-    },
-    plugins: [],
-    }
-    5. app.scss 내 위치
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-    6. npm run watch 적용
-    7. app.blade.php 내 적용
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    8. Module not found: Error: Can't resolve 'sass-loader' 오류 발생 시
-    npm install sass 또는
-    npm install sass-loader
-    8. npm run watch 적용
-    9. 예시
-        <template>
-            <div>
-                <p class="text-8xl test-p">test</p>
-            </div>
-        </template>
-        <script>
-        export default {
-            name: 'AppComponent',
-        }
-        </script>
-        <style lang="scss">
-            @import '../sass/app.scss';
-        </style>
+> 매장에서 고객을 만나고, 경리로 숫자를 맞추고, 교육기관에서 상담과 행정을 맡아 왔습니다.
+> 반복되는 업무는 **규칙으로 정리해 도구로 바꿉니다.** 웹 개발 과정을 이수한 경험으로 **고객 · 운영 · 개발 사이의 말을 잇고자** 합니다.
 
+## 왜 만들었나
+
+고객을 안내하고 과정을 운영하는 업무에는 세 가지 어려움이 있었습니다.
+
+1. **기한을 사람이 기억한다** — 과정 유형마다 신고 기한이 다르고, 놓치면 안 되는 단계가 있다.
+2. **같은 내용을 다시 옮겨 적는다** — 시간표 엑셀 수백 줄을 시스템 업로드 양식에 맞게 손으로 바꿔야 한다.
+3. **지금 어디까지 됐는지 한눈에 보이지 않는다** — 과정별 진행 상태를 하나씩 확인해야 한다.
+
+이 세 가지를 **① 단계별 체크리스트, ② 엑셀 자동 변환, ③ 일정 · 할 일판**으로 풀었습니다.
+
+## 걸어온 길
+
+| 기간 | 분야 · 역할 | 맡은 일 |
+|---|---|---|
+| 2026.07 ~ 현재 | 직업훈련기관 · 영업관리 | 전화 · 온라인 문의 상담과 등록 안내, 블로그 · 인스타그램 홍보, 출결 · 수료 · 훈련과정 신고, 훈련비용 신청, 공문서 작성 |
+| 2024.11 ~ 2026.06 | 웨딩업 · 관리부 (경리) | 고객 결제 승인 · 취소 확인, 업체 정산과 소통, 프로모션 정기보고, ERP · 고객관리시스템 관리, 급여 계산 |
+| 2023.08 ~ 2024.02 | 교육 이수 | PHP 풀스택(프론트엔드 + 백엔드) 과정 |
+| 2022.06 ~ 2023.07 | 반려동물 영양 협회 · 지부장 | 신문 칼럼 연재, 이론 수업과 센터 출강 |
+| 2013.04 ~ 2022.09 | 패션 매장 · 사원 (시니어 역할) | 고객 관리와 상품 판매, 재고 · 디스플레이 관리 |
+
+현재 한국방송통신대학교 컴퓨터과학과에 재학 중입니다 (2025.03 ~).
+
+## 전체 구조
+
+```mermaid
+flowchart LR
+    subgraph IN["업무 자료"]
+        SHEET["공유 시트<br/>과정 목록"]
+        EXCEL["시간표 엑셀"]
+        MONTH["월간 시간표"]
+    end
+
+    subgraph TOOL["정리 · 자동화"]
+        CHECK["신고 체크리스트"]
+        CONV["시간표 변환기"]
+        CAL["개강 달력 · 할 일판"]
+    end
+
+    subgraph OUT["업무 결과"]
+        DUE["단계별 처리 상태 확인"]
+        UP["시스템 업로드 파일"]
+        VIEW["일정 · 할 일 한눈에 보기"]
+    end
+
+    SHEET -- 읽기만 --> CHECK --> DUE
+    EXCEL --> CONV --> UP
+    MONTH --> CAL --> VIEW
+```
+
+## 업무별 정리
+
+| 업무 | 전 | 후 |
+|---|---|---|
+| 훈련과정 신고 관리 | 기한과 진행 상태를 기억으로 관리 | 시간표등록 → 변경인정 → 실시신고 → 확정자신고 → 수료보고를 **5단계로 체크** |
+| 시스템용 시간표 작성 | 강사 · 강의실 · 교과목을 손으로 코드 변환 | 엑셀을 자동 변환하고 **업로드 전에 담당강사 등록 여부 검사** |
+| 개강 일정 관리 | 월간 시간표를 하나씩 확인 | 달력과 **행정 7단계 할 일판**으로 정리 |
+
+> 실무 도구는 내부 자료와 개인정보 보호를 위해 코드와 화면을 공개하지 않습니다.
+> 업무 규칙과 요구사항을 직접 정리하고, 구현에는 AI 코딩 도구를 활용했습니다.
+
+## 일하는 방식
+
+### 1. 고객의 말을 듣고 맞는 길을 안내한다
+
+매장 근무부터 지금의 상담 업무까지 고객을 직접 만나 왔습니다. 전화와 온라인 문의를 받아 **상담하고 훈련과정 등록을 안내**합니다.
+
+### 2. 확신이 들 때까지 두 번 확인한다
+
+경리 업무에서는 반드시 이중으로 확인했습니다. 모호한 부분은 대표에게 확인받거나 **세무사 · 공공기관에 직접 문의해 근거를 확보**했습니다. 숫자 오류는 원인을 끝까지 역추적했습니다.
+
+### 3. 빠르게 익히고 양식을 고쳐 쓴다
+
+하루의 인수인계 뒤 사수 없이 **한 달 만에 업무에 적응**했고, 단기간에 주임으로 진급했습니다. 비효율적인 양식은 고쳐서 실무에 적용했습니다.
+
+### 4. 함께 쓰는 자료는 건드리지 않는다
+
+신고 체크리스트는 여러 사람이 쓰는 공유 시트를 **읽기만** 하고, 체크 상태는 따로 저장합니다. 화면도 본인만 열 수 있습니다.
+
+### 5. 제출하기 전에 검사한다
+
+시간표 변환기는 업로드 전에 담당강사 등록 여부를 확인합니다. 첫 실제 사용에서 **760교시 업로드에 성공**했습니다. 기준이 확정되지 않은 기한은 추측하지 않고 담당자가 직접 적습니다.
+
+## IT 서비스 이해 — Class4You
+
+온라인 클래스 플랫폼을 **2인 팀**으로 만든 프로젝트입니다 (2023.12.04 ~ 2024.01.22). **서비스가 운영되는 구조를 이해하는 바탕**이 되었습니다.
+
+| 운영 관점 | 서비스에 담긴 기능 | 위치 |
+|---|---|---|
+| 회원 | 이메일 인증 · 카카오 로그인 · 임시 비밀번호 · 회원 정지 | [컨트롤러](Class4You/app/Http/Controllers/) |
+| 고객 문의 | 강의 질문 · 커뮤니티 · 신고 처리 | [화면](Class4You/resources/components/) |
+| 현황 파악 | 결제 · 가입 · 연령대 · 인기 강의 통계 | [관리자 메인](Class4You/resources/components/AdminMainComponent.vue) |
+| 데이터 | 회원 · 강의 · 수강 · 신고의 연결 구조 | [DB 설계](Class4You/database/) |
+
+## 활용 도구
+
+| 구분 | 내용 |
+|---|---|
+| 사무 · 관리 | Microsoft Excel · ERP · 고객관리시스템 · 전표처리 · 재고관리 |
+| 협업 | Notion · Slack · Jira · GitHub |
+| 업무 자동화 | Google Apps Script · 구글 시트 연동 · AI 코딩 도구 |
+| 웹 기초 | HTML · CSS · JavaScript · PHP · Laravel · Vue · MariaDB |
+| 데이터 기초 | [Python 공공 API · pandas 실습](https://github.com/choibocknami12/workspace_project/tree/main/Python) |
+| 문서 | 공문서 · 정기보고 · 칼럼 · [설치 안내](docs/INSTALL.md) |
+
+## 배운 것
+
+- **자동화보다 업무 규칙 정리가 먼저다.** 단계와 기준이 분명해야 도구도 정확해진다.
+- **실수는 조심보다 구조로 줄인다.** 이중 확인과 사전 검사가 기억보다 믿을 만하다.
+- **소통은 전달에서 끝나지 않는다.** 고객과 협력사의 요청을 확인하고 정리해 결과까지 알려야 한다.
+- **운영 화면을 알면 고객 문의가 다르게 보인다.** 문의가 어느 기능과 데이터에서 시작됐는지 짚어 전달할 수 있다.
